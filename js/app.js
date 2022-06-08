@@ -737,7 +737,6 @@ function checkButtonClick() {
     if (currects === 81) {
       gameOn = false;
       pauseTimer = true;
-      document.getElementById("game-difficulty").innerText = "Solved";
       clearInterval(intervalId);
       alert("Congrats, You solved it.");
       if(timer < 180){
@@ -763,7 +762,8 @@ function checkButtonClick() {
     }
 
     final = points * multiplier;
-    alert(final);
+    document.getElementById("game-difficulty").innerText = final;
+    // alert(final);
   }
 }
 
@@ -805,9 +805,10 @@ function SurrenderButtonClick() {
     clearInterval(intervalId);
 
     // mark game as solved
-    document.getElementById("game-difficulty").innerText = "Solved";
+    document.getElementById("game-difficulty").innerText = "Surrender";
 
     multiplier = 0;
+    points = 0;
   }
 }
 
