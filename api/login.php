@@ -21,15 +21,6 @@ if ($result->num_rows != 0) {
             ];
             $_SESSION["user1"] = serialize($res_data);
             echo json_encode($res_data);
-        } else if ($user == 2) {
-            $res_data = [
-                'id' => $data["id"],
-                'username' => $data["username"],
-                'asal_sekolah' => $data["asal_sekolah"],
-                'player' => $user
-            ];
-            $_SESSION["user2"] = serialize($res_data);
-            echo json_encode($res_data);
         }
     } else {
         echo "Password Salah";

@@ -22,6 +22,9 @@ var points = 0;
 // final points values
 var final = 0;
 
+// indicator for finished game
+var finish = 0;
+
 // variable to check if "Sudoku Solver" solve the puzzle
 var isSolved = false;
 var canSolved = true;
@@ -621,8 +624,8 @@ function startGameButtonClick() {
 
   hideDialogButtonClick("dialog");
   gameId++;
-  var Name = document.getElementById("Name").value;
-  document.getElementById("game-number").innerText = Name;
+  //var Name = document.getElementById("Name").value;
+  //document.getElementById("game-number").innerText = Name;
 
   // hide solver buttons
   // show other buttons
@@ -747,6 +750,12 @@ function checkButtonClick() {
         points = 500;
       }
 
+      final = points * multiplier;
+      document.getElementById("game-difficulty").innerText = final;
+
+      finish = 1;
+      alert(finish);
+
     } else if (errors === 0 && currects === 0) {
       alert(
         "Congrats, You solved it, but this is not the solution that I want."
@@ -759,11 +768,40 @@ function checkButtonClick() {
       }else if(timer > 360){
         points = 200;
       }
+      final = points * multiplier;
+      document.getElementById("game-difficulty").innerText = final;
+      finish = 1;
+
     }
 
-    final = points * multiplier;
-    document.getElementById("game-difficulty").innerText = final;
+    if (currents == 81){
+      document.getElementById("game-difficulty").innerText = final;
+    } else if (errors === 0 && currects === 0){
+      document.getElementById("game-difficulty").innerText = final;
+    }
     // alert(final);
+
+    if (finish == 1){
+
+      let data = new FormData();
+        data.append("id", window.location.search.substr(4, 6));
+        data.append("timer", timer);
+        data.append("score", final);
+        data.append("idp1", gameState.player[0].id);
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: 'api/post_data_game3.php',
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            window.location.href = "loginPage.php"
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus)
+        }
+    });
+    }
   }
 }
 
@@ -992,7 +1030,7 @@ function sudokuSolverMenuClick() {
   document.getElementById("timer").innerText = "00:00";
   document.getElementById("game-difficulty-label").innerText = "Is unique";
   document.getElementById("game-difficulty").innerText = "Unknown";
-  document.getElementById("game-number").innerText = "#Sudoku_Solver";
+  //document.getElementById("game-number").innerText = "#Sudoku_Solver";
 
   //focus first cell
   document
@@ -1059,4 +1097,10 @@ function isUniqueButtonClick() {
 
   //display the result
   document.getElementById("game-difficulty").innerText = unique ? "Yes" : "No";
+}
+
+
+function logouts(){
+  windows.location.href = "loginPage.php";
+
 }

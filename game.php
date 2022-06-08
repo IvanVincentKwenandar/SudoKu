@@ -81,6 +81,12 @@
                 <span style="left:12px;">About</span>
               </div>
             </button>
+            <!-- <button onclick="logouts()" ripple-color="#003c8f" class="button nav-item vertical-adjust">
+              <div>
+               
+                <span style="left:12px;">Exit</span>
+              </div>
+            </button> -->
             <div class="bar-footer">
               <ul>
                 <a href="#" class="bar-footer-link">Site feedback</a>
@@ -106,9 +112,9 @@
           <div class="dialog-header">New game</div>
       
           <div class="dialog-body">
-            <label for="Name">
+            <!-- <label for="Name">
               <input id="Name" type="text" name="Name" placeholder="Input your/team name">
-            </label>
+            </label> -->
             <p>Select game difficulty to get started.</p>
             <ul>
               <li class="radio-option">
@@ -509,7 +515,7 @@
                     </div>
                 </div>
                 <div class="card status">
-                    <div id="game-number">Nama</div>
+                    <div id="game-number"><?php echo $_GET['id'] ?></div>
                     <ul class="game-status">
                       <li>
                         <div class="vertical-adjust">
@@ -590,6 +596,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous"></script>
     <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js">
+      let gameState = {
+        "id": "",
+        "timers": "",
+        "player": [{
+            "id":0,
+            "name": "Dummy1"
+        }, {
+            "id":0,
+            "name": "Dummy2"
+        }]
+      };
+      gameState.id = "<?php echo $_GET['id'] ?>";
+      gameState.player[0].id = "<?php echo $data1['id'] ?>";
+      gameState.player[0].name = "<?php echo $data1['username'] ?>";
+    </script>
 </body>
 </html>

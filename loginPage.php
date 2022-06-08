@@ -119,12 +119,14 @@
                 <div class="col-md-6 my-auto">
                     <?php
                     if (isset($_SESSION['user1']) && !empty($_SESSION["user1"])) {
-                        echo '<h2 class="text-center mb-4">Player 1</h2>';
+                        echo '<h2 class="text-center mb-4">Player</h2>';
                         echo '<div class="text-center ">';
                         echo '<div class="p-3 mb-4 scale-in-ver-center" style="outline: solid #523322 5pt; border-radius: 5px; color: black; background-color: #f0e7dc;">';
                         echo '<h3>' . $data1['username'] . '</h3>';
                         echo '<h4>' . $data1['asal_sekolah'] . '</h4>';
                         echo '</div>';
+                        echo '<button class="btn btn-outline-warning" onclick="startgame()" <?php echo $sg ?>>Start Game</button>';
+                        echo '<button class="btn btn-outline-warning" id="btnHowToPlay">How to play</button>';
                         echo '<button class="btn btn-outline-danger" id="logout1">Logout</button></div>';
                     }
                     ?>
@@ -142,12 +144,12 @@
                         <div class="text-center mt-4">
                             <button class="btn btn-lg btn-outline-warning" id="login1">Login</button>
                         </div>
-                        <div class="text-center mt-4">
+                        <!-- <div class="text-center mt-4">
                             <button class="btn btn-lg mb-4 btn-outline-warning" onclick="startgame()" <?php echo $sg ?>>Start Game</button>
                         </div>
                         <div class="text-center">
                             <button class="btn btn-lg btn-outline-warning" id="btnHowToPlay">How to play</button>
-                        </div>
+                        </div> -->
                         
                         
                     </div>
