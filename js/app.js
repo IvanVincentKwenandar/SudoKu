@@ -25,6 +25,12 @@ var final = 0;
 // indicator for finished game
 var finish = 0;
 
+// get timer
+var timer_end = 0;
+
+// get difficulty
+var difficulties = 0;
+
 // variable to check if "Sudoku Solver" solve the puzzle
 var isSolved = false;
 var canSolved = true;
@@ -66,6 +72,7 @@ function newGame(difficulty) {
 
   // game is on when the difficulty = [0, 4]
   gameOn = difficulty < 5 && difficulty >= 0;
+  difficulties = difficulty;
 
   // update the UI
   ViewPuzzle(puzzle);
@@ -740,68 +747,82 @@ function checkButtonClick() {
     if (currects === 81) {
       gameOn = false;
       pauseTimer = true;
+      timer_end = timer;
+      finish = 1;
       clearInterval(intervalId);
       alert("Congrats, You solved it.");
-      if(timer < 180){
+      if(timer < 300){
         points = 800;
-      }else if(timer > 180 && timer < 360){
+      }else if(timer > 300 && timer < 480){
         points = 650;
-      }else if(timer > 360){
+      }else if(timer > 480){
         points = 500;
       }
 
       final = points * multiplier;
+      document.getElementById("game-difficulty-label").innerText = "Score";
       document.getElementById("game-difficulty").innerText = final;
-
-      finish = 1;
-      alert(finish);
 
     } else if (errors === 0 && currects === 0) {
       alert(
         "Congrats, You solved it, but this is not the solution that I want."
       );
 
-      if(timer < 180){
+      if(timer < 300){
         points = 500;
-      }else if(timer > 180 && timer < 360){
+      }else if(timer > 300 && timer < 480){
         points = 350;
-      }else if(timer > 360){
+      }else if(timer > 480){
         points = 200;
       }
       final = points * multiplier;
+      document.getElementById("game-difficulty-label").innerText = "Score";
       document.getElementById("game-difficulty").innerText = final;
       finish = 1;
 
     }
 
     if (currents == 81){
+      document.getElementById("game-difficulty-label").innerText = "Score";
       document.getElementById("game-difficulty").innerText = final;
     } else if (errors === 0 && currects === 0){
+      document.getElementById("game-difficulty-label").innerText = "Score";
       document.getElementById("game-difficulty").innerText = final;
     }
     // alert(final);
 
-    if (finish == 1){
+    // if (finish == 1){
 
-      let data = new FormData();
-        data.append("id", window.location.search.substr(4, 6));
-        data.append("timer", timer);
-        data.append("score", final);
-        data.append("idp1", gameState.player[0].id);
-      $.ajax({
-        type: "POST",
-        data: data,
-        url: 'api/post_data_game3.php',
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            window.location.href = "loginPage.php"
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log(textStatus)
-        }
-    });
-    }
+    //   // let data = new FormData();
+    //   // data.append("id", window.location.search.substr(4, 6));
+    //   // data.append("timer", timer);
+    //   // data.append("score", final);
+    //   // data.append("idp1", gameState.player[0].id);
+
+    //   var id = document.getElementById("#game-number").val();
+    //   var timers = timer;
+    //   var score = final;
+    //   var idp1 = gameState.player[0].id;
+
+    //   $.ajax({
+    //     type: "POST",
+    //     data: {
+    //       id:id,
+    //       timers:timers,
+    //       score:score,
+    //       idp1:idp1
+    //     },
+    //     url: 'api/post_data_game3.php',
+    //     processData: false,
+    //     contentType: false,
+    //     success: function(response) {
+    //         window.location.href = "loginPage.php"
+    //     },
+    //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+    //         console.log(textStatus)
+    //     }
+    //   });
+    // }
   }
 }
 
@@ -867,11 +888,22 @@ function hintButtonClick() {
       }
     }
 
-    // check if gird is solved if so stop the game
+    // check if grid is solved if to stop the game
     if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
       gameOn = false;
       pauseTimer = true;
-      document.getElementById("game-difficulty").innerText = "Solved";
+      if(timer < 300){
+        points = 800;
+      }else if(timer > 300 && timer < 480){
+        points = 650;
+      }else if(timer > 480){
+        points = 500;
+      }
+      finish = 1;
+      final = multiplier * points;
+      timer_end = timer;
+      document.getElementById("game-difficulty-label").innerText = "Score";
+      document.getElementById("game-difficulty").innerText = final;
       clearInterval(intervalId);
       alert("Congrats, You solved it.");
     } else {
@@ -1104,3 +1136,41 @@ function logouts(){
   windows.location.href = "loginPage.php";
 
 }
+
+$(document).ready(function() {
+  if (finish == 1){
+
+    // let data = new FormData();
+    // data.append("id", window.location.search.substr(4, 6));
+    // data.append("timer", timer);
+    // data.append("score", final);
+    // data.append("idp1", gameState.player[0].id);
+
+    var id = $("#game-number").val();
+    var timers = timer_end;
+    var score = final;
+    var idp1 = gameState.player[0].id;
+    var difficulties = difficulties;
+    console.log(timers);
+
+    $.ajax({
+      type: "POST",
+      data: {
+        id:id,
+        timers:timers,
+        score:score,
+        idp1:idp1,
+        difficulties:difficulties
+      },
+      url: 'api/post_data_game3.php',
+      processData: false,
+      contentType: false,
+      success: function(response) {
+          window.location.href = "loginPage.php"
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+          console.log(textStatus)
+      }
+    });
+  }
+})

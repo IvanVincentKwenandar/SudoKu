@@ -3,11 +3,12 @@
     session_start();
 
     $id_game = $_POST['id'];
-    $timer = (int)$_POST['timer'];
+    $timers = (int)$_POST['timers'];
     $score = (int)$_POST['score'];
     $id_team1 = (int)$_POST['idp1'];
+    $difficulties = $_POST['difficulties'];
 
-    $sql = "INSERT INTO game3(id, time, score, id_team1) VALUES ('$id_game',$timer,$score,$id_team1)";
+    $sql = "INSERT INTO `game3` (`id`, `time`, `score`, `id_team1`, `difficulties`) VALUES ('$id_game',$timers,$score,$id_team1,$difficulties)";
     $result = mysqli_query($con, $sql);
     echo $result;
 ?>
