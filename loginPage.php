@@ -100,8 +100,12 @@
                     <p>Angka yang diisi tidak boleh ada di dalam baris dan kolom pada lokasi yang diisikan, jika sudah ada angka yang sama maka harus diganti dengan angka yang lainnya. </p>
                     
                     <h1 class="text-center mt-5">PENILAIAN PERMAINAN</h1>
-                    <p>Semakin cepat anda menyelesaikan sudoku nya, maka semakin besar poin yang akan didapatkan. </p>
+                    <p>Poin didasarkan pada durasi permainan dimana semakin cepat diselesaikan maka akan semakin besar poin yang didapatkan.</p>
+                    <p>Anda dapat menggunakan fitur "HINT" yang dimana akan memberikan 1 posisi tepat pada grid Sudoku, namun tiap kali penggunaan "HINT" akan menambahkan waktu 1 menit ke timer anda.</p>
+                    <p>Anda dapat menggunakan fitur "RESTART" untuk mengulang kembali permainan pada grid Sudoku yang anda mainkan.</p>
+                    <p>Anda dapat menggunakan fitur "SURRENDER" kapan pun bila merasa tidak mampu menyelesaikan permainan yang telah anda mulai ;)</p>
                     <h3 class="mt-3">PENGALI SKOR AKHIR</h3>
+                    <p>Tingkat kesulitan yang anda pilih akan sangat mempengaruhi poin akhir yang akan anda dapatkan, dimana poin yang didapatkan akan dikalikan dengan pengali sesuai tingkat kesulitan yang dipilih.</p?>
                     <p>1. Very Easy: 1x</p>
                     <p>2. Easy: 1.5x</p>
                     <p>3. Normal: 2x</p>
@@ -127,6 +131,7 @@
                         echo '</div>';
                         echo '<button class="btn btn-outline-warning" onclick="startgame()" <?php echo $sg ?>>Start Game</button>';
                         echo '<button class="btn btn-outline-warning" id="btnHowToPlay">How to play</button>';
+                        echo '<button onclick="highscore()" class="btn btn-outline-warning" id="btnHowToPlay">High Score</button>';
                         echo '<button class="btn btn-outline-danger" id="logout1">Logout</button></div>';
                     }
                     ?>
@@ -177,6 +182,10 @@
 
         function refresh() {
             window.location.href = "loginPage.php"
+        }
+
+        function highscore(){
+            window.location.href = "highScore.php";
         }
 
         $(document).ready(function() {

@@ -742,32 +742,37 @@ function checkButtonClick() {
             timer_end = timer;
             finish = 1;
             clearInterval(intervalId);
-            alert("Congrats, You solved it.");
-            if (timer < 300) {
+    
+            if (timer < 360) {
                 points = 800;
-            } else if (timer > 300 && timer < 480) {
+            } else if (timer > 360 && timer < 540) {
                 points = 650;
-            } else if (timer > 480) {
+            } else if (timer > 540) {
                 points = 500;
             }
 
             final = points * multiplier;
+
+            alert("Congrats, You solved it. Your score is: " + final);
+
             document.getElementById("game-difficulty-label").innerText = "Score";
             document.getElementById("game-difficulty").innerText = final;
 
         } else if (errors === 0 && currects === 0) {
-            alert(
-                "Congrats, You solved it, but this is not the solution that I want."
-            );
-
-            if (timer < 300) {
+            
+            if (timer < 360) {
                 points = 500;
-            } else if (timer > 300 && timer < 480) {
+            } else if (timer > 360 && timer < 540) {
                 points = 350;
-            } else if (timer > 480) {
+            } else if (timer > 540) {
                 points = 200;
             }
             final = points * multiplier;
+
+            alert(
+                "Congrats, You solved it, but this is not the solution that I want. Your score is: " + final
+            );
+
             document.getElementById("game-difficulty-label").innerText = "Score";
             document.getElementById("game-difficulty").innerText = final;
             finish = 1;
@@ -776,47 +781,6 @@ function checkButtonClick() {
 
         postdata();
 
-        // if (currents == 81){
-        //   document.getElementById("game-difficulty-label").innerText = "Score";
-        //   document.getElementById("game-difficulty").innerText = final;
-        // } else if (errors === 0 && currects === 0){
-        //   document.getElementById("game-difficulty-label").innerText = "Score";
-        //   document.getElementById("game-difficulty").innerText = final;
-        // }
-        // alert(final);
-
-        // if (finish == 1){
-
-        //   // let data = new FormData();
-        //   // data.append("id", window.location.search.substr(4, 6));
-        //   // data.append("timer", timer);
-        //   // data.append("score", final);
-        //   // data.append("idp1", gameState.player[0].id);
-
-        //   var id = document.getElementById("#game-number").val();
-        //   var timers = timer;
-        //   var score = final;
-        //   var idp1 = gameState.player[0].id;
-
-        //   $.ajax({
-        //     type: "POST",
-        //     data: {
-        //       id:id,
-        //       timers:timers,
-        //       score:score,
-        //       idp1:idp1
-        //     },
-        //     url: 'api/post_data_game3.php',
-        //     processData: false,
-        //     contentType: false,
-        //     success: function(response) {
-        //         window.location.href = "loginPage.php"
-        //     },
-        //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //         console.log(textStatus)
-        //     }
-        //   });
-        // }
     }
 }
 
@@ -886,11 +850,11 @@ function hintButtonClick() {
         if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
             gameOn = false;
             pauseTimer = true;
-            if (timer < 300) {
+            if (timer < 360) {
                 points = 800;
-            } else if (timer > 300 && timer < 480) {
+            } else if (timer > 360 && timer < 540) {
                 points = 650;
-            } else if (timer > 480) {
+            } else if (timer > 540) {
                 points = 500;
             }
             finish = 1;
@@ -899,7 +863,7 @@ function hintButtonClick() {
             document.getElementById("game-difficulty-label").innerText = "Score";
             document.getElementById("game-difficulty").innerText = final;
             clearInterval(intervalId);
-            alert("Congrats, You solved it.");
+            alert("Congrats, You solved it. Your score is: " + final);
 
             postdata();
 
@@ -1129,13 +1093,6 @@ function isUniqueButtonClick() {
 }
 
 
-function logouts() {
-    windows.location.href = "loginPage.php";
-
-}
-
-
-
 function postdata() {
     if (finish == 1) {
         let data = new FormData();
@@ -1145,6 +1102,8 @@ function postdata() {
         data.append("idp1", gameState.player[0].id);
         data.append("difficulties", difficulties);
 
+        let ves = window.location.search.substr(4,6);
+
         $.ajax({
             type: "POST",
             data: data,
@@ -1152,7 +1111,7 @@ function postdata() {
             processData: false,
             contentType: false,
             success: function(response) {
-                window.location.href = "loginPage.php"
+                window.location.href = "game.php?id=" + ves;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 console.log(textStatus)

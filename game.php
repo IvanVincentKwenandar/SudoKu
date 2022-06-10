@@ -81,6 +81,12 @@
                 <span style="left:12px;">About</span>
               </div>
             </button>
+            <button onclick="logouts()" ripple-color="#003c8f" class="button nav-item vertical-adjust">
+              <div>
+               
+                <span style="left:12px;">Exit</span>
+              </div>
+            </button>
             <!-- <button onclick="logouts()" ripple-color="#003c8f" class="button nav-item vertical-adjust">
               <div>
                
@@ -612,6 +618,12 @@
       gameState.id = "<?php echo $_GET['id'] ?>";
       gameState.player[0].id = "<?php echo $data1['id'] ?>";
       gameState.player[0].name = "<?php echo $data1['username'] ?>";
+
+      function logouts() {
+          window.location.replace("loginPage.php");
+      }
+
+
     </script>
 </body>
 </html>
