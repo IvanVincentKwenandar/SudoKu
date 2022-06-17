@@ -129,7 +129,7 @@
                         echo '<h3>' . $data1['username'] . '</h3>';
                         echo '<h4>' . $data1['asal_sekolah'] . '</h4>';
                         echo '</div>';
-                        echo '<button class="btn btn-outline-warning" onclick="startgame()" <?php echo $sg ?>>Start Game</button>';
+                        echo '<button class="btn btn-outline-warning" onclick="startgame()" <?php echo $sg ?>Start Game</button>';
                         echo '<button class="btn btn-outline-warning" id="btnHowToPlay">How to play</button>';
                         echo '<button onclick="highscore()" class="btn btn-outline-warning" id="btnHowToPlay">High Score</button>';
                         echo '<button class="btn btn-outline-danger" id="logout1">Logout</button></div>';
