@@ -49,6 +49,8 @@
                     <tbody id="absentTable">
                     </tbody>
                 </table>
+
+                <button onclick="returnLogin()" class="btn btn-outline-danger" id="btnHowToPlay">Return</button>
                 </div>
                 <div class="col-md-2"></div>
             </div>

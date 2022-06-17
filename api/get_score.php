@@ -7,7 +7,7 @@
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $id_team1 = (int)$_GET['idp1'];
 
-        $sql = "SELECT * FROM game3 WHERE `id_team1` = $id_team1 ORDER BY `id_team1`";
+        $sql = "SELECT * FROM game3 WHERE `id_team1` = $id_team1 ORDER BY `difficulties` DESC";
         $query = mysqli_query($con, $sql);
 
         $result = array();
