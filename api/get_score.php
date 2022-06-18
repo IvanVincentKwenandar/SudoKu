@@ -30,7 +30,7 @@
                 "id" => '-'
             );
             
-            $temp['idp1'] = $result[$i]['id_team1'];
+            $temp['idp1'] = $result[$i]['id'];
             $temp['time'] = $result[$i]['time'];
             $temp['score'] = $result[$i]['score'];
             $temp['difficulties'] = $result[$i]['difficulties'];
