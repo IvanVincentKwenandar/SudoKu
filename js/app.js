@@ -10,6 +10,8 @@ var multiplier = 0;
 // puzzle grid
 var puzzle = [];
 
+var currects = 0;
+
 // solution grid
 var solution = [];
 
@@ -31,15 +33,27 @@ var timer_end = 0;
 // get difficulty
 var difficulties = 0;
 
+// get correct number
+var cer = 0;
+
+var xer = 0;
+
+var end_mul = 0;
+var end_score = 0;
+
+
 // variable to check if "Sudoku Solver" solve the puzzle
 var isSolved = false;
 var canSolved = true;
 
 // stopwatch timer variables
-var timer = 0;
+var timer = 300;
 var pauseTimer = false;
 var intervalId;
 var gameOn = false;
+
+
+
 
 function newGame(difficulty) {
     // get random position for numbers from '1' to '9' to generate a random puzzle
@@ -58,7 +72,7 @@ function newGame(difficulty) {
     solution = solveGrid(psNum, rows, true);
 
     // reset the game state timer and remaining number
-    timer = 0;
+    timer = 300;
     for (var i in remaining) remaining[i] = 9;
 
     // empty cells from grid depend on difficulty
@@ -73,6 +87,18 @@ function newGame(difficulty) {
     // game is on when the difficulty = [0, 4]
     gameOn = difficulty < 5 && difficulty >= 0;
     difficulties = difficulty;
+
+    if (difficulty == 4){
+        timer = 120;
+    }else if (difficulty == 3){
+        timer = 180;
+    }else if (difficulty == 2){
+        timer = 300;
+    }else if (difficulty == 1){
+        timer = 360;
+    }else if (difficulty == 0){
+        timer = 420;
+    }
 
     // update the UI
     ViewPuzzle(puzzle);
@@ -389,7 +415,7 @@ function startTimer() {
     pauseTimer = false;
     intervalId = setInterval(function() {
         if (!pauseTimer) {
-            timer++;
+            timer--;
             var min = Math.floor(timer / 60);
             var sec = timer % 60;
             timerDiv.innerText =
@@ -397,7 +423,26 @@ function startTimer() {
                 ":" +
                 (("" + sec).length < 2 ? "0" + sec : sec);
         }
+
+        //console.log(points);
+
+        if (multiplier == 1){
+            xer = 20;
+        }else if (multiplier == 1.5){
+            xer = 40;
+        }else if (multiplier == 2){
+            xer = 60;
+        }else if (multiplier == 2.5){
+            xer = 80;
+        }else if (multiplier == 3){
+            xer = 100;
+        }
+
+        if (timer <= 0){
+            endGame(multiplier, points, xer);
+        }
     }, 1000);
+
 }
 
 // solve sudoku function
@@ -618,7 +663,11 @@ function startGameButtonClick() {
     }
     if (difficulty > 4) newGame(5);
 
-    if (difficulty == 0) { multiplier = 1; } else if (difficulty == 1) { multiplier = 1.5; } else if (difficulty == 2) { multiplier = 2; } else if (difficulty == 3) { multiplier = 2.5; } else if (difficulty == 4) { multiplier = 3; }
+    if (difficulty == 0) { multiplier = 1; } 
+    else if (difficulty == 1) { multiplier = 1.5; } 
+    else if (difficulty == 2) { multiplier = 2; } 
+    else if (difficulty == 3) { multiplier = 2.5; } 
+    else if (difficulty == 4) { multiplier = 3; }
 
 
     hideDialogButtonClick("dialog");
@@ -698,7 +747,7 @@ function checkButtonClick() {
         var blocks = getBlocks(currentGrid);
 
         var errors = 0;
-        var currects = 0;
+        currects = 0;
 
         for (var i = 0; i < currentGrid.length; i++) {
             for (var j = 0; j < currentGrid[i].length; j++) {
@@ -734,24 +783,80 @@ function checkButtonClick() {
             }
         }
 
+        cer = currects;
+        
         // if all values are correct and they equal original values then game over and the puzzle has been solved
         // if all values are correct and they aren't equal original values then game over but the puzzle has not been solved yet
         if (currects === 81) {
+            cer = currects;
             gameOn = false;
             pauseTimer = true;
             timer_end = timer;
             finish = 1;
             clearInterval(intervalId);
     
-            if (timer < 360) {
-                points = 800;
-            } else if (timer > 360 && timer < 540) {
-                points = 650;
-            } else if (timer > 540) {
-                points = 500;
+            if(difficulty == 0){
+                if (timer >= 210) {
+                    points = 800;
+                } else if (timer < 210 && timer > 105) {
+                    points = 650;
+                } else if (timer <= 105) {
+                    points = 500;
+                } else if(timer <= 0){
+                    endGame(multiplier, points, 100);
+                }
+            }else if (difficulty == 1){
+                if (timer >= 180) {
+                    points = 800;
+                } else if (timer < 180 && timer > 90) {
+                    points = 650;
+                } else if (timer <= 90) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 80);
+                }
+            }else if (difficulty == 2){
+                if (timer >= 150) {
+                    points = 800;
+                } else if (timer < 150 && timer > 75) {
+                    points = 650;
+                } else if (timer <= 75) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 60);
+                }
+            }else if (difficulty == 3){
+                if (timer >= 90) {
+                    points = 800;
+                } else if (timer < 90 && timer > 45) {
+                    points = 650;
+                } else if (timer <= 45) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 40);
+                }
+            }else if (difficulty == 4){
+                if (timer >= 60) {
+                    points = 800;
+                } else if (timer < 60 && timer > 30) {
+                    points = 650;
+                } else if (timer <= 30) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 20);
+                }
             }
 
-            final = points * multiplier;
+
+            // if (timer < 360) {
+            //     points = 800;
+            // } else if (timer > 360 && timer < 540) {
+            //     points = 650;
+            // } else if (timer > 540) {
+            //     points = 500;
+            // }
+
+            final = (points * multiplier) + timer + currects;
 
             alert("Congrats, You solved it. Your score is: " + final);
 
@@ -760,14 +865,58 @@ function checkButtonClick() {
 
         } else if (errors === 0 && currects === 0) {
             
-            if (timer < 360) {
-                points = 500;
-            } else if (timer > 360 && timer < 540) {
-                points = 350;
-            } else if (timer > 540) {
-                points = 200;
+            if(difficulty == 0){
+                if (timer >= 210) {
+                    points = 500;
+                } else if (timer < 210 && timer > 105) {
+                    points = 350;
+                } else if (timer <= 105) {
+                    points = 200;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 100);
+                }
+            }else if (difficulty == 1){
+                if (timer >= 180) {
+                    points = 500;
+                } else if (timer < 180 && timer > 90) {
+                    points = 350;
+                } else if (timer <= 90) {
+                    points = 200;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 80);
+                }
+            }else if (difficulty == 2){
+                if (timer >= 150) {
+                    points = 500;
+                } else if (timer < 150 && timer > 75) {
+                    points = 350;
+                } else if (timer <= 75) {
+                    points = 200;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 60);
+                }
+            }else if (difficulty == 3){
+                if (timer >= 90) {
+                    points = 500;
+                } else if (timer < 90 && timer > 45) {
+                    points = 350;
+                } else if (timer <= 45) {
+                    points = 200;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 40);
+                }
+            }else if (difficulty == 4){
+                if (timer >= 60) {
+                    points = 500;
+                } else if (timer < 60 && timer > 30) {
+                    points = 350;
+                } else if (timer <= 30) {
+                    points = 200;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 20);
+                }
             }
-            final = points * multiplier;
+            final = (points * multiplier) + timer + currects;
 
             alert(
                 "Congrats, You solved it, but this is not the solution that I want. Your score is: " + final
@@ -798,10 +947,24 @@ function restartButtonClick() {
 
         // restart the timer
         // -1 is because it take 1 sec to update the timer so it will start from 0
-        timer = -1;
+        if (difficulty == 4){
+            timer = 120;
+        }else if (difficulty == 3){
+            timer = 180;
+        }else if (difficulty == 2){
+            timer = 300;
+        }else if (difficulty == 1){
+            timer = 360;
+        }else if (difficulty == 0){
+            timer = 420;
+        }
 
-        multiplier = 0;
+        // multiplier = 0;
     }
+}
+
+function refreshButtonClick(){
+    window.location.href = "game.php?id=" + window.location.search.substr(4, 6);
 }
 
 // surrender
@@ -846,19 +1009,68 @@ function hintButtonClick() {
             }
         }
 
+
         // check if grid is solved if to stop the game
         if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
             gameOn = false;
             pauseTimer = true;
-            if (timer < 360) {
-                points = 800;
-            } else if (timer > 360 && timer < 540) {
-                points = 650;
-            } else if (timer > 540) {
-                points = 500;
+
+            if(difficulty == 0){
+                if (timer >= 210) {
+                    points = 800;
+                } else if (timer < 210 && timer > 105) {
+                    points = 650;
+                } else if (timer <= 105) {
+                    points = 500;
+                }else if(timer <= 0){
+                    console.log(timer);
+                    endGame(multiplier, points, 100);
+                }
+            }else if (difficulty == 1){
+                if (timer >= 180) {
+                    points = 800;
+                } else if (timer < 180 && timer > 90) {
+                    points = 650;
+                } else if (timer <= 90) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 80);
+                }
+            }else if (difficulty == 2){
+                if (timer >= 150) {
+                    points = 800;
+                } else if (timer < 150 && timer > 75) {
+                    points = 650;
+                } else if (timer <= 75) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 60);
+                }
+            }else if (difficulty == 3){
+                if (timer >= 90) {
+                    points = 800;
+                } else if (timer < 90 && timer > 45) {
+                    points = 650;
+                } else if (timer <= 45) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 40);
+                }
+            }else if (difficulty == 4){
+                if (timer >= 60) {
+                    points = 800;
+                } else if (timer < 60 && timer > 30) {
+                    points = 650;
+                } else if (timer <= 30) {
+                    points = 500;
+                }else if(timer <= 0){
+                    endGame(multiplier, points, 20);
+                }
             }
+
             finish = 1;
-            final = multiplier * points;
+            final = (multiplier * points) + timer + cer;
+            HTMLFormControlsCollection.log(cer);
             timer_end = timer;
             document.getElementById("game-difficulty-label").innerText = "Score";
             document.getElementById("game-difficulty").innerText = final;
@@ -868,8 +1080,29 @@ function hintButtonClick() {
             postdata();
 
         } else {
-            // add one minute to the stopwatch as a cost for given hint
-            timer += 60;
+            // add xx seconds to the stopwatch as a cost for given hint
+            cer += 1;
+            //console.log(cer);
+            timer -= 10;
+
+            if (multiplier == 1){
+                points = 20;
+            }else if (multiplier == 1.5){
+                points = 40;
+            }else if (multiplier == 2){
+                points = 60;
+            }else if (multiplier == 2.5){
+                points = 80;
+            }else if (multiplier == 3){
+                points = 100;
+            }
+
+            //console.log(points);
+            if (timer <= 0){
+                //console.log(cer);
+                timer = 0;
+                endGame(multiplier, points, cer);
+            }
 
             // get random cell from empty or wrong list and put the currect value in it
             var input;
@@ -900,6 +1133,8 @@ function hintButtonClick() {
             // update remaining numbers table
             updateRemainingTable();
         }
+
+        //endGame(multiplier, points, cer);
 
         // make updated cell blinking
         var count = 0;
@@ -1093,6 +1328,23 @@ function isUniqueButtonClick() {
 }
 
 
+function endGame(a, b, c){
+    //console.log(timer);
+
+    if (timer <= 0){
+        finish = 1;
+        gameOn = false;
+        pauseTimer = true;
+        clearInterval(intervalId);
+        final = (a * b) + c;
+        alert("Time's up!. Your score is: " + final);
+
+        postdata();
+    }
+    
+}
+
+
 function postdata() {
     if (finish == 1) {
         let data = new FormData();
@@ -1111,7 +1363,7 @@ function postdata() {
             processData: false,
             contentType: false,
             success: function(response) {
-                window.location.href = "game.php?id=" + ves;
+                window.location.href = "loginPage.php";
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 console.log(textStatus)

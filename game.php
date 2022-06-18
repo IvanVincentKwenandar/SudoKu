@@ -34,7 +34,7 @@
           <!-- it is important to put these styles in here because if I do not do that it will not work in javaScript-->
           <div id="more-option-list" style="visibility: hidden;max-height: 10px;max-width: 40px;min-width: 40px;" class="more-option-list">
             <button onclick="hintButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Hint</button>
-            <button onclick="restartButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Restart</button>
+            <button onclick="refreshButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Restart</button>
             <button onclick="SurrenderButtonClick()" ripple-color="tomato" class="button nav-item vertical-adjust">Surrender</button>
           </div>
         </div>
